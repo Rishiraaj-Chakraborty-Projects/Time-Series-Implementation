@@ -1,6 +1,30 @@
+# Build directories and outputs
 build/
-.vscode/
-.idea/
+bin/
+out/
+Testing/
+
+# Visual Studio & Windows temporary files
+.vs/
 *.user
 *.suo
+*.exe
+*.obj
+*.o
+*.lib
+*.a
+*.pdb
+*.ilk
+*.idb
+
+# Log & console dumps
+*.log
+*.tmp
 *.csv.tmp
+output.txt
+
+# Editor / IDE configuration
+.vscode/
+.idea/
+CMakeSettings.json
+CMakeUserPresets.json

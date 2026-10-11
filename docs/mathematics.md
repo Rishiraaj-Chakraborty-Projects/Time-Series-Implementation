@@ -78,7 +78,7 @@ The intercept is profiled from the sample mean using
 c=\bar X(1-\phi).
 \]
 
-This is intentionally a transparent educational estimator rather than a production maximum-likelihood optimizer.
+This provides a deterministic, transparent conditional sum-of-squares formulation that exposes each recurrence step without depending on complex unconstrained optimization routines.
 
 ## 5. Forecasting
 

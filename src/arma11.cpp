@@ -99,9 +99,6 @@ ARMA11Fit fit_arma11_grid(const std::vector<double>& x,
     }
 
     const double mu = std::accumulate(x.begin(), x.end(), 0.0) / static_cast<double>(x.size());
-    const double intercept = mu * 0.5; // overwritten below using each candidate phi
-
-    (void)intercept;
 
     ARMA11Fit best;
     best.objective = std::numeric_limits<double>::infinity();
@@ -118,11 +115,17 @@ ARMA11Fit fit_arma11_grid(const std::vector<double>& x,
             candidate.intercept = candidate_intercept;
             candidate.sigma = 1.0;
 
-            const auto errors = conditional_innovations(x, candidate);
+            // In-place conditional SSE calculation avoiding heap allocations in the tight loop.
+            // Theoretical mean for centered initialization: c / (1 - phi) == mu.
+            double prev_error = x[0] - mu;
             double sse = 0.0;
-            // Ignore the first conditional residual because its initialization is approximate.
-            for (std::size_t t = 1; t < errors.size(); ++t) {
-                sse += errors[t] * errors[t];
+            for (std::size_t t = 1; t < x.size(); ++t) {
+                const double err = x[t]
+                                 - candidate_intercept
+                                 - phi * x[t - 1]
+                                 - theta * prev_error;
+                sse += err * err;
+                prev_error = err;
             }
 
             if (sse < best.objective) {

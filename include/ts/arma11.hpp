@@ -29,13 +29,13 @@ std::vector<double> simulate_arma11(const ARMA11Parameters& params,
 double theoretical_mean(const ARMA11Parameters& params);
 double theoretical_variance(const ARMA11Parameters& params);
 
-// Conditional sum-of-squared-innovations fit using a bounded grid search.
-// This is deliberately transparent rather than numerically sophisticated.
+// Conditional sum-of-squared-innovations (CSS) fit over stationary (|phi| < 1)
+// and invertible (|theta| < 1) parameter space. Profiles out intercept via sample mean.
 ARMA11Fit fit_arma11_grid(const std::vector<double>& x,
                           double phi_min = -0.95,
                           double phi_max = 0.95,
-                          double theta_min = -1.5,
-                          double theta_max = 1.5,
+                          double theta_min = -0.95,
+                          double theta_max = 0.95,
                           double step = 0.02);
 
 std::vector<double> conditional_innovations(const std::vector<double>& x,

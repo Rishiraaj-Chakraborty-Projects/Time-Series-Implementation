@@ -21,9 +21,8 @@ std::vector<double> forecast_arma11(const std::vector<double>& x,
     std::vector<double> forecast;
     forecast.reserve(horizon);
 
-    // E[eta_{T+h} | information through T] = 0.
-    // Only the known last innovation contributes at h = 1.
-    const double mean = theoretical_mean(params);
+    // E[eta_{T+h} | information through T] = 0 for h >= 1.
+    // Only the known last innovation contributes at step h = 1.
     const double first = params.intercept
                        + params.phi * last_value
                        + params.theta * last_error;
@@ -34,7 +33,6 @@ std::vector<double> forecast_arma11(const std::vector<double>& x,
         forecast.push_back(next);
     }
 
-    (void)mean;
     return forecast;
 }
 

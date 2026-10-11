@@ -75,9 +75,9 @@ int analyze(const std::string& input_path) {
 
     const auto residuals = ts::conditional_innovations(series.values, fit.parameters);
     const auto lb = ts::ljung_box(residuals, 10);
-    std::cout << "\nLjung-Box-style diagnostic (rough p-value):\n"
-              << "Q(10):       " << lb.statistic << '\n'
-              << "p-value:     ~" << lb.approximate_p_value << '\n';
+    std::cout << "\nLjung-Box diagnostic test (lag 10):\n"
+              << "Q-statistic: " << lb.statistic << '\n'
+              << "p-value:     " << lb.approximate_p_value << '\n';
 
     return 0;
 }
